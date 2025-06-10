@@ -61,7 +61,7 @@ def parse_one_quote(quote: Tag) -> Quote:
     tags = tags_str.split(",") if tags_str else []
 
     return Quote(
-        text=quote.select_one(".quote span").text,
+        text=quote.select_one(".quote .text").text,
         author=author,
         tags=tags
     )
@@ -107,7 +107,7 @@ def write_quotes_to_csv(output_csv_path: str, quotes: list[Quote]) -> None:
         writer.writerows([astuple(quote) for quote in quotes])
 
 
-def write_bio_authors(bios: dict) -> None:
+def write_bio_authors() -> None:
     with open("authors_bio.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["author", "author description"])
@@ -118,7 +118,7 @@ def main(output_csv_path: str) -> None:
 
     write_quotes_to_csv(output_csv_path, parse_pages_quotes())
 
-    write_bio_authors(bio_authors)
+    write_bio_authors()
 
 
 if __name__ == "__main__":
